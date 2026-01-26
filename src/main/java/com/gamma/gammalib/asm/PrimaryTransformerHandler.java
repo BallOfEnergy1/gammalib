@@ -20,7 +20,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 
 @SuppressWarnings("unused")
-public class SpoolTransformerHandler implements IClassTransformer {
+public class PrimaryTransformerHandler implements IClassTransformer {
 
     private static final ObjectSet<String> processedClasses = new ObjectOpenHashSet<>();
 
@@ -72,7 +72,8 @@ public class SpoolTransformerHandler implements IClassTransformer {
         ASMRegistry.Entry[] validEntries = new ASMRegistry.Entry[ASMRegistry.TRANSFORMERS.size()];
         int i = 0;
         for (ASMRegistry.Entry entry : ASMRegistry.TRANSFORMERS) {
-            if (!entry.transformer().getTargetClasses()
+            if (!entry.transformer()
+                .getTargetClasses()
                 .find(bytecode, true)) continue;
             validEntries[i] = entry;
             i++;
@@ -125,10 +126,13 @@ public class SpoolTransformerHandler implements IClassTransformer {
         try {
             for (ASMRegistry.Entry checkTransformer : ASMRegistry.CHECK_TRANSFORMERS) {
                 currentEntry = checkTransformer;
-                changed |= checkTransformer.checkTransformer().performCheck(transformedName, classNode, bytecode);
+                changed |= checkTransformer.checkTransformer()
+                    .performCheck(transformedName, classNode, bytecode);
             }
         } catch (Exception e) {
-            throw new IllegalStateException("Transformer " + currentEntry.toString() + " failed while performing checks via ASM.", e);
+            throw new IllegalStateException(
+                "Transformer " + currentEntry.toString() + " failed while performing checks via ASM.",
+                e);
         }
         // Add more checks here.
 

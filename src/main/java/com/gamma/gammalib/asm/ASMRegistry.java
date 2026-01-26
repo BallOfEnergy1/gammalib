@@ -1,10 +1,11 @@
 package com.gamma.gammalib.asm;
 
+import javax.annotation.Nonnull;
+
 import com.gamma.gammalib.asm.interfaces.ICheckTransformer;
 import com.gamma.gammalib.asm.interfaces.ITransformer;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
-import javax.annotation.Nonnull;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class ASMRegistry {
 
@@ -28,7 +29,9 @@ public class ASMRegistry {
         @Override
         @Nonnull
         public String toString() {
-            return transformer.getClass().getSimpleName() + " from mod " + modid;
+            return transformer.getClass()
+                .getSimpleName() + " from mod "
+                + modid;
         }
     }
 }
