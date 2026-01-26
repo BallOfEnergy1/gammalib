@@ -1,0 +1,22 @@
+{
+  "modListVersion": 2,
+  "modList": [{
+    "modid": "${modId}",
+    "name": "${modName}",
+    "description": "A library made by Gammawave.",
+    "version": "${modVersion}",
+    "mcversion": "${minecraftVersion}",
+    "license": "LGPL v3",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["Microwave"],
+    "credits": "",
+    "logoFile": "assets/gammalib/textures/gammalib_icon.png",
+    "screenshots": [],
+    "parent": "",
+    "requiredMods": [],
+    "dependencies": [],
+    "dependants": [],
+    "useDependencyInformation": false
+  }]
+}
