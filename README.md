@@ -21,13 +21,24 @@ To make full use of this library, [UniMixins](https://github.com/LegacyModdingMC
 ## Using this Library
 You can shadow this library, just make sure that it won't cause issues if other mods also shadow/require this library (or if the library jar itself is installed alonside your mod that shadows it).
 
+Jitpack must be added to your Gradle repositories:
+```gradle
+repositories {
+  maven { url "https://jitpack.io" }
+}
+```
+
 Gradle:
 ```gradle
-implementation('io.github.BallOfEnergy1:gammalib:version:dev') // Must be installed alongside your mod
+dependencies {
+  implementation('io.github.BallOfEnergy1:gammalib:version:dev') // Must be installed alongside your mod
+}
 ```
 OR
 ```gradle
-shadowImplementation('io.github.BallOfEnergy1:gammalib:version:dev') // Shadowed into your mod (no additional jar; *must* check licensing)
+dependencies {
+  shadowImplementation('io.github.BallOfEnergy1:gammalib:version:dev') // Shadowed into your mod (no additional jar; *must* check licensing)
+}
 ```
 
 ## Shadowed Dependencies
