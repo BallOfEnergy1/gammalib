@@ -1,13 +1,14 @@
 package com.gamma.gammalib.asm.util;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 import com.gamma.gammalib.core.GammaLibLogger;
+
 import it.unimi.dsi.fastutil.Stack;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-
-import java.util.Arrays;
-import java.util.Objects;
 
 public class StackView implements Cloneable {
 
