@@ -16,22 +16,6 @@ public class DebugConfig {
     @Config.Name("Enable compatibility debug mode (console logging)?")
     public static boolean compatLogging;
 
-    @Config.Comment("Enables full compatibility debug (complete DB logging).")
-    @Config.DefaultBoolean(false)
-    @Config.Name("Enable full compatibility debug mode (complete DB logging)?")
-    public static boolean fullCompatLogging;
-
-    @Config.Comment("Allows DB socket connections on `localhost:7655`.")
-    @Config.DefaultBoolean(false)
-    @Config.Name("Allow DB connections?")
-    public static boolean allowDBConnections;
-
-    @Config.Comment("Maximum amount of connections to the DB server before connections are denied.")
-    @Config.DefaultInt(2)
-    @Config.RangeInt(min = 1, max = 16)
-    @Config.Name("Max # of DB connections")
-    public static int maxDBConnections;
-
     @Config.Comment("Enables ASM debug (console logging).")
     @Config.DefaultBoolean(false)
     @Config.Name("Enable ASM debug mode (console logging)?")
