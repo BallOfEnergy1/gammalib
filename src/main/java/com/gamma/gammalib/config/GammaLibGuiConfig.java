@@ -8,6 +8,6 @@ import com.gtnewhorizon.gtnhlib.config.SimpleGuiConfig;
 public class GammaLibGuiConfig extends SimpleGuiConfig {
 
     public GammaLibGuiConfig(GuiScreen parent) throws ConfigException {
-        super(parent, "gammalib", "GammaLib", true, CompatConfig.class, DebugConfig.class, ImplConfig.class);
+        super(parent, "gammalib", "GammaLib", true, DebugConfig.class, ImplConfig.class);
     }
 }

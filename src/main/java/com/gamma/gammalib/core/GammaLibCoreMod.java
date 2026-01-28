@@ -6,7 +6,6 @@ import java.util.Map;
 
 import net.bytebuddy.agent.ByteBuddyAgent;
 
-import com.gamma.gammalib.config.CompatConfig;
 import com.gamma.gammalib.config.DebugConfig;
 import com.gamma.gammalib.config.ImplConfig;
 import com.gamma.gammalib.multi.MultiJavaUtil;
@@ -53,7 +52,6 @@ public class GammaLibCoreMod implements IFMLLoadingPlugin {
         try {
             ConfigurationManager.registerConfig(DebugConfig.class);
             ConfigurationManager.registerConfig(ImplConfig.class);
-            ConfigurationManager.registerConfig(CompatConfig.class);
 
             boolean isUnsafeDeprecated = MultiJavaUtil.supportsVersion(23);
             if (ImplConfig.useUnsafe && !isUnsafeDeprecated) UnsafeAccessor.init();

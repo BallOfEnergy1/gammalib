@@ -38,6 +38,18 @@ public class PrimaryTransformerHandler implements IClassTransformer {
             return null;
         }
 
+        boolean transform = ASMRegistry.beginTransform(name, transformedName, basicClass);
+        if (!transform) {
+            processedClasses.add(transformedName);
+            return basicClass;
+        }
+
+        if (transformedName.contains("it.unimi.dsi.fastutil")
+            || transformedName.contains("com.gtnewhorizon.gtnhlib.asm")) {
+            processedClasses.add(transformedName);
+            return basicClass;
+        }
+
         String className = transformedName.replace(".", "/");
 
         final ClassReader classReader = new ClassReader(basicClass);
