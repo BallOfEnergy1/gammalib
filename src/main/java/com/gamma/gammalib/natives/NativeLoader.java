@@ -45,7 +45,7 @@ public class NativeLoader {
         }
 
         String resourcePath = "natives/" + folder + "/" + baseName + suffix;
-        try (InputStream in = BasicSIMD.class.getClassLoader()
+        try (InputStream in = NativeLoader.class.getClassLoader()
             .getResourceAsStream(resourcePath)) {
             if (in == null) {
                 throw new IOException("Missing native resource: " + resourcePath);
