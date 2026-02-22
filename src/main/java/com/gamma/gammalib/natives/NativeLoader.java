@@ -58,9 +58,10 @@ public class NativeLoader {
                 tempFile.toFile()
                     .deleteOnExit();
             }
-            Runtime.getRuntime().load(
-                tempFile.toAbsolutePath()
-                    .toString());
+            Runtime.getRuntime()
+                .load(
+                    tempFile.toAbsolutePath()
+                        .toString());
         }
     }
 }
