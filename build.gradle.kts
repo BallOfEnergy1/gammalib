@@ -20,5 +20,5 @@ tasks.register<JavaExec>("runBenchmarks") {
     group = "verification"
     description = "Runs Spool micro-benchmarks."
     classpath = sourceSets["bench"].runtimeClasspath
-    mainClass.set("com.gamma.spool.bench.BenchmarkMain")
+    mainClass.set("com.gamma.gammalib.bench.BenchmarkMain")
 }

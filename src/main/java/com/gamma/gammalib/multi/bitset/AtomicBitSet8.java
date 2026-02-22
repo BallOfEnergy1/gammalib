@@ -1,46 +1,23 @@
 package com.gamma.gammalib.multi.bitset;
 
-import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicLongArray;
 
 public class AtomicBitSet8 implements FastAtomicBitSet {
 
-    private static final class Cell {
-
-        volatile int value; // 1 = true, 0 = false
-    }
-
-    private static final AtomicIntegerFieldUpdater<Cell> UPDATER = AtomicIntegerFieldUpdater
-        .newUpdater(Cell.class, "value");
-
-    private final Cell[] cells;
+    private final AtomicLongArray values;
 
     private final int length;
 
     public AtomicBitSet8(int bitsLength) {
-        cells = new Cell[length = bitsLength];
-        for (int i = 0; i < bitsLength; i++) {
-            cells[i] = new Cell();
-        }
+        values = new AtomicLongArray((bitsLength + 63) >>> 6);
+        length = bitsLength;
     }
 
     @Override
-    public void set(int bitIndex) {
-        Cell c = cells[bitIndex];
-        int prev;
-        do {
-            prev = c.value;
-            if (prev == 1) return;
-        } while (!UPDATER.compareAndSet(c, 0, 1));
-    }
-
-    @Override
-    public void clear(int bitIndex) {
-        Cell c = cells[bitIndex];
-        int prev;
-        do {
-            prev = c.value;
-            if (prev == 0) return;
-        } while (!UPDATER.compareAndSet(c, 1, 0));
+    public boolean get(int bitIndex) {
+        int wordIndex = bitIndex >>> 6;
+        long bit = 1L << (bitIndex & 63);
+        return (values.get(wordIndex) & bit) != 0;
     }
 
     @Override
@@ -50,17 +27,35 @@ public class AtomicBitSet8 implements FastAtomicBitSet {
     }
 
     @Override
-    public void flip(int bitIndex) {
-        Cell c = cells[bitIndex];
-        int prev;
+    public void set(int bitIndex) {
+        int wordIndex = bitIndex >>> 6;
+        long bit = 1L << (bitIndex & 63);
+        long prev;
         do {
-            prev = c.value;
-        } while (!UPDATER.compareAndSet(c, prev, prev ^ 1));
+            prev = values.get(wordIndex);
+            if ((prev & bit) != 0) return;
+        } while (!values.compareAndSet(wordIndex, prev, prev | bit));
     }
 
     @Override
-    public boolean get(int bitIndex) {
-        return cells[bitIndex].value != 0;
+    public void clear(int bitIndex) {
+        int wordIndex = bitIndex >>> 6;
+        long bit = 1L << (bitIndex & 63);
+        long prev;
+        do {
+            prev = values.get(wordIndex);
+            if ((prev & bit) == 0) return;
+        } while (!values.compareAndSet(wordIndex, prev, prev & ~bit));
+    }
+
+    @Override
+    public void flip(int bitIndex) {
+        int wordIndex = bitIndex >>> 6;
+        long bit = 1L << (bitIndex & 63);
+        long prev;
+        do {
+            prev = values.get(wordIndex);
+        } while (!values.compareAndSet(wordIndex, prev, prev ^ bit));
     }
 
     @Override

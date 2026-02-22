@@ -9,7 +9,6 @@ import com.gamma.gammalib.multi.factory.BitSetFactory;
 public enum BitSetImpl {
 
     STDLIB("bitset-java", 8, false, false),
-    COMPACT("bitset-compact", 8, false, true),
     JAVA_8("bitset-8", 8, false, false),
     JAVA_9("bitset-9", 9, false, false);
 

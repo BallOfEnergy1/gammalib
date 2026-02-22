@@ -16,6 +16,10 @@ public final class Blackhole {
         sink ^= value * 0x9E3779B97F4A7C15L;
     }
 
+    public void consume(double[] value) {
+        sink ^= (long) (value[0] * 0x9E3779B97F4A7C15L) ^ (long) (value[value.length - 1] * 0xC2B2AE3D27D4EB4FL) ^ (value.length * 0x9E3779B9L);
+    }
+
     public void consume(byte value) {
         sink ^= (value & 0xFFL) * 0xC2B2AE3D27D4EB4FL;
     }

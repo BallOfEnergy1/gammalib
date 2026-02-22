@@ -11,6 +11,11 @@ public class ImplConfig {
     @Config.Name("Use Java 8 Unsafe?")
     public static boolean useUnsafe;
 
+    @Config.Comment("Enables use of SIMD natives provided by GammaLib's packaged SIMDLib.")
+    @Config.DefaultBoolean(true)
+    @Config.Name("Use SIMD natives?")
+    public static boolean useSIMDNatives;
+
     @Config.Comment("Enables use of Java 9+ features if compatibility is detected (LWJGL3ify).")
     @Config.DefaultBoolean(true)
     @Config.Name("Use Java 9+ features?")

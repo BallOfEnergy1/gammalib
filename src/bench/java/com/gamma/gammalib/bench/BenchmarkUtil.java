@@ -24,6 +24,16 @@ public final class BenchmarkUtil {
         return values;
     }
 
+    public static double[] generateDoubles(int count, long seed) {
+        double[] values = new double[count];
+        long state = seed;
+        for (int i = 0; i < count; i++) {
+            state = mix(state);
+            values[i] = (int) state;
+        }
+        return values;
+    }
+
     private static long mix(long state) {
         state ^= state >>> 33;
         state *= 0xff51afd7ed558ccdL;
