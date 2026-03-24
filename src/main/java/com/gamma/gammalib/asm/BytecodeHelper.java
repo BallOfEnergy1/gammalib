@@ -18,7 +18,7 @@ import org.spongepowered.asm.lib.tree.TypeInsnNode;
  */
 public class BytecodeHelper {
 
-    private static void swap(InsnList list, String topTypeDesc, String bottomTypeDesc) {
+    public static void swap(InsnList list, String topTypeDesc, String bottomTypeDesc) {
 
         Type topType = Type.getType(topTypeDesc);
         Type bottomType = Type.getType(bottomTypeDesc);
