@@ -70,4 +70,8 @@ public class AtomicNibbleArray9 implements FastAtomicNibbleArray {
         }
         return newValue;
     }
+
+    public byte[] getByteArray() {
+        throw new UnsupportedOperationException();
+    }
 }

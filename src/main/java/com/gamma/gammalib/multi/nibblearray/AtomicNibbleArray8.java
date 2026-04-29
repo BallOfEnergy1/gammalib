@@ -41,6 +41,7 @@ public class AtomicNibbleArray8 implements FastAtomicNibbleArray {
         return (int) ((word >>> ((i & 15) << 2)) & 0xFL);
     }
 
+    @Override
     public boolean compareAndSet(int i, int expect, int newValue) {
         int idx = i >>> 4;
         int shift = (i & 15) << 2;
@@ -67,6 +68,10 @@ public class AtomicNibbleArray8 implements FastAtomicNibbleArray {
             newValue = (old + 1) & 0xF;
         } while (!compareAndSet(i, old, newValue));
         return newValue;
+    }
+
+    public byte[] getByteArray() {
+        throw new UnsupportedOperationException();
     }
 
     private static void initOffsets(Unsafe unsafe) {

@@ -54,4 +54,8 @@ public class AtomicNibbleArray8Safe implements FastAtomicNibbleArray {
         } while (!compareAndSet(i, old, newValue));
         return newValue;
     }
+
+    public byte[] getByteArray() {
+        throw new UnsupportedOperationException();
+    }
 }
