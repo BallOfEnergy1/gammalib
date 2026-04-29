@@ -1,11 +1,9 @@
 package com.gamma.gammalib.core;
 
 import com.gamma.gammalib.Tags;
-import com.gamma.gammalib.watchdog.Watchdog;
 import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
 
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(
     modid = GammaLib.MODID,
@@ -23,13 +21,4 @@ public class GammaLib {
 
     @Mod.Instance(MODID)
     public static GammaLib instance;
-
-    public static Watchdog watchdogThread = new Watchdog();
-
-    @Mod.EventHandler
-    public static void preInit(FMLPreInitializationEvent event) {
-        GammaLibLogger.info("Starting GammaLib Watchdog...");
-        watchdogThread.start();
-        GammaLibLogger.info("Watchdog started!");
-    }
 }

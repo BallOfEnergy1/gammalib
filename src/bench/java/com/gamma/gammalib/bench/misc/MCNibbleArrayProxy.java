@@ -26,39 +26,58 @@ public class MCNibbleArrayProxy implements FastAtomicNibbleArray {
         this.depthBitsPlusFour = p_i1993_2_ + 4;
     }
 
-    public synchronized int get(int p_76582_1_, int p_76582_2_, int p_76582_3_) {
-        int l = p_76582_2_ << this.depthBitsPlusFour | p_76582_3_ << this.depthBits | p_76582_1_;
-        int i1 = l >> 1;
-        int j1 = l & 1;
-        return j1 == 0 ? this.data[i1] & 15 : this.data[i1] >> 4 & 15;
-    }
-
     @Override
     public int get(int idx) {
-        return this.get(idx >> 8, idx >> 4 & 15, idx & 15);
+        int i1 = idx >> 1;
+        int j1 = idx & 1;
+        synchronized (this) {
+            return j1 == 0 ? this.data[i1] & 15 : this.data[i1] >> 4 & 15;
+        }
     }
 
-    public synchronized void set(int p_76581_1_, int p_76581_2_, int p_76581_3_, int p_76581_4_) {
-        int i1 = p_76581_2_ << this.depthBitsPlusFour | p_76581_3_ << this.depthBits | p_76581_1_;
-        int j1 = i1 >> 1;
-        int k1 = i1 & 1;
-
-        if (k1 == 0) {
-            this.data[j1] = (byte) (this.data[j1] & 240 | p_76581_4_ & 15);
-        } else {
-            this.data[j1] = (byte) (this.data[j1] & 15 | (p_76581_4_ & 15) << 4);
-        }
+    public synchronized int get(int p_76582_1_, int p_76582_2_, int p_76582_3_) {
+        int l = p_76582_2_ << this.depthBitsPlusFour | p_76582_3_ << this.depthBits | p_76582_1_;
+        return this.get(l);
     }
 
     @Override
     public void set(int idx, int value) {
-        this.set(idx >> 8, idx >> 4 & 15, idx & 15, value);
+        int j1 = idx >> 1;
+        int k1 = idx & 1;
+        synchronized (this) {
+            if (k1 == 0) {
+                this.data[j1] = (byte) (this.data[j1] & 240 | value & 15);
+            } else {
+                this.data[j1] = (byte) (this.data[j1] & 15 | (value & 15) << 4);
+            }
+        }
+    }
+
+    public synchronized void set(int p_76581_1_, int p_76581_2_, int p_76581_3_, int p_76581_4_) {
+        int i1 = p_76581_2_ << this.depthBitsPlusFour | p_76581_3_ << this.depthBits | p_76581_1_;
+        this.set(i1, p_76581_4_);
     }
 
     @Override
     public synchronized int incrementAndGet(int idx) {
-        int newValue = this.get(idx) + 1;
+        int newValue = (this.get(idx) + 1) & 0xF;
         this.set(idx, newValue);
         return newValue;
+    }
+
+    @Override
+    public byte[] getByteArray() {
+        return this.data;
+    }
+
+    @Override
+    public boolean compareAndSet(int i, int expect, int newValue) {
+        synchronized (this) {
+            if (this.get(i) == expect) {
+                this.set(i, newValue);
+                return true;
+            }
+            return false;
+        }
     }
 }

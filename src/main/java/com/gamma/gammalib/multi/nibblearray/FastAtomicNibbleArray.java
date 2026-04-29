@@ -6,13 +6,13 @@ import com.google.common.annotations.VisibleForTesting;
 public interface FastAtomicNibbleArray extends FastImpl {
 
     default int get(int x, int y, int z) {
-        return get(y << 8 | z << 4 | x);
+        return get(x << 8 | z << 4 | y);
     }
 
     int get(int idx);
 
     default void set(int x, int y, int z, int value) {
-        set(y << 8 | z << 4 | x, value);
+        set(x << 8 | z << 4 | y, value);
     }
 
     void set(int idx, int value);
@@ -20,5 +20,7 @@ public interface FastAtomicNibbleArray extends FastImpl {
     @VisibleForTesting
     int incrementAndGet(int idx);
 
-    // byte[] getByteArray();
+    boolean compareAndSet(int i, int expect, int newValue);
+
+    byte[] getByteArray();
 }

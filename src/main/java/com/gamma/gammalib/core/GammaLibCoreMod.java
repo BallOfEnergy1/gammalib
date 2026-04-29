@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 @IFMLLoadingPlugin.MCVersion("1.7.10")
 @IFMLLoadingPlugin.TransformerExclusions({ "com.gamma.gammalib.", "com.gtnewhorizon.gtnhlib.asm",
-    "it.unimi.dsi.fastutil" }) // go away.
+    "com.gtnewhorizon.gtnhlib.config", "it.unimi.dsi.fastutil" })
 public class GammaLibCoreMod implements IFMLLoadingPlugin {
 
     private static Instrumentation instrumentation;

@@ -13,7 +13,6 @@ To make full use of this library, [UniMixins](https://github.com/LegacyModdingMC
 - Bytecode utilities such as class hierarchy tools, ASM annotation injection, bytecode stack reconstruction (experimental), and others.
 - Several concurrency utilities, including a general interface for concurrent classes that wish to have inter-mod compatibility.
 - `Unsafe` access system, allowing for dynamic `Unsafe` usage depending on system support/Java version.
-- Watchdog system for detecting deadlocks in game threads and throwing upon detection with useful thread information.
 - System for testing mods in high-load environments by providing a command to spawn arbitrary amounts of fake players.
 - `PlayerJoinTime` handler to find the time at which a player joined a server (because Mojang didn't ever do it...).
 - And more!
