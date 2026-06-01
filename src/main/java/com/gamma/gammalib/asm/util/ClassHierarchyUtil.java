@@ -6,6 +6,9 @@ import java.util.Objects;
 
 import org.spongepowered.asm.lib.ClassReader;
 
+import com.gamma.gammalib.core.GammaLibCoreMod;
+import com.google.common.base.Throwables;
+
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -71,11 +74,10 @@ public class ClassHierarchyUtil {
                     return "java/lang/Object";
                 }
                 // Move to direct superclass (nearest parent is the last element)
-                current = supers2.get(supers2.size() - 1);
+                current = supers2.getLast();
             }
         } catch (Throwable t) {
-            // If anything goes wrong, be conservative
-            return "java/lang/Object";
+            throw Throwables.propagate(t);
         }
     }
 
@@ -107,12 +109,11 @@ public class ClassHierarchyUtil {
                 if (superName == null || superName.equals("java/lang/Object")) {
                     break;
                 }
-                superClasses.add(0, superName);
+                superClasses.addFirst(superName);
                 currentClass = superName;
             }
         } catch (IOException e) {
-            // If we can't read the class, return empty set
-            return ObjectLists.emptyList();
+            throw Throwables.propagate(e);
         }
         return ObjectLists.unmodifiable(superClasses);
     }
@@ -124,7 +125,10 @@ public class ClassHierarchyUtil {
             // Get all interfaces including those from superclasses
             collectInterfaces(className, allInterfaces);
         } catch (IOException e) {
-            // If we can't read the class, return empty set
+            // Optional Interfaces can cause issues here. If the interface cannot be
+            // read, it can be assumed it doesn't exist in the classpath. This indicates
+            // that the mod isn't installed, and the inheritance trees created won't be
+            // used at all.
             return ObjectSets.emptySet();
         }
         return ObjectSets.unmodifiable(allInterfaces);
@@ -150,8 +154,6 @@ public class ClassHierarchyUtil {
         }
     }
 
-    // --- Helpers for class resolution and arrays ---
-
     private String getArrayCommonSuper(String t1, String t2) {
         // If both are arrays
         if (t1.startsWith("[") && t2.startsWith("[")) {
@@ -171,7 +173,7 @@ public class ClassHierarchyUtil {
             String i2 = c2.substring(1, c2.length() - 1);
             String lcs = getCommonSuperClass(i1, i2);
             StringBuilder sb = new StringBuilder(d1 + 2 + lcs.length());
-            for (int i = 0; i < d1; i++) sb.append('[');
+            sb.repeat("[", Math.max(0, d1));
             sb.append('L')
                 .append(lcs)
                 .append(';');
@@ -200,7 +202,14 @@ public class ClassHierarchyUtil {
         ClassLoader cl = Thread.currentThread()
             .getContextClassLoader();
         if (cl == null) cl = ClassHierarchyUtil.class.getClassLoader();
-        String resource = internalName + ".class";
+        String resource;
+
+        if (GammaLibCoreMod.isObfuscatedEnv) {
+            String mapped = ObfuscatedClassHandler.mapDeobfuscatedClass(internalName);
+            if (mapped == null) resource = internalName + ".class";
+            else resource = mapped + ".class";
+        } else resource = internalName + ".class";
+
         try (InputStream is = cl.getResourceAsStream(resource)) {
             if (is != null) {
                 return new ClassReader(is);
@@ -214,32 +223,5 @@ public class ClassHierarchyUtil {
             }
         }
         throw new IOException("Class bytes not found for " + internalName);
-    }
-
-    private boolean isInterfaceInternal(String internalName) {
-        try {
-            ClassReader r = getReader(internalName);
-            int access = r.getAccess();
-            return (access & 0x0200) != 0; // ACC_INTERFACE
-        } catch (IOException e) {
-            try {
-                Class<?> cls = Class.forName(
-                    internalToBinary(internalName),
-                    false,
-                    Thread.currentThread()
-                        .getContextClassLoader());
-                return cls.isInterface();
-            } catch (ClassNotFoundException ex) {
-                return false;
-            }
-        }
-    }
-
-    private String internalToBinary(String internal) {
-        return internal.replace('/', '.');
-    }
-
-    private String binaryToInternal(String binary) {
-        return binary.replace('.', '/');
     }
 }

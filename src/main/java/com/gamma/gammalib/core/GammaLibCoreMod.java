@@ -112,7 +112,8 @@ public class GammaLibCoreMod implements IFMLLoadingPlugin {
 
     @Override
     public void injectData(Map<String, Object> data) {
-        isObfuscatedEnv = !(boolean) data.get("runtimeDeobfuscationEnabled");
+        isObfuscatedEnv = (boolean) data.get("runtimeDeobfuscationEnabled");
+        GammaLibLogger.info("Obfuscation enabled: " + isObfuscatedEnv);
     }
 
     @Override
