@@ -10,7 +10,7 @@ To make full use of this library, [UniMixins](https://github.com/LegacyModdingMC
 - Fast atomic classes using dynamic versioning to allow for faster libraries only found on later versions (using JVMDG and MR Jars) when using LWJGL3ify.
 - Shadows several commonly used classes for concurrency and other utilities (JCTools, ByteBuddy + ByteBuddyAgent, and `sqlite-jdbc`).
 - Generic ASM manager allowing for fast, efficient, and targeted ASM operations such as field access transformations, superclass transformations, method redirections, and more.
-- Bytecode utilities such as class hierarchy tools, ASM annotation injection, bytecode stack reconstruction (experimental), and others.
+- Bytecode utilities such as class hierarchy tools, runtime obfuscated class name remapping, ASM annotation injection, bytecode stack reconstruction (experimental), and others.
 - Several concurrency utilities, including a general interface for concurrent classes that wish to have inter-mod compatibility.
 - `Unsafe` access system, allowing for dynamic `Unsafe` usage depending on system support/Java version.
 - System for testing mods in high-load environments by providing a command to spawn arbitrary amounts of fake players.
