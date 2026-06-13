@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import net.minecraft.launchwrapper.Launch;
-
 import com.google.common.base.Throwables;
 
 /**
@@ -66,8 +64,7 @@ public class EarlyConfigManager {
      *                              not a directory, or if {@link #validateConfigFile(Path, ConfigFile)} fails.
      */
     private static void validateConfig(ConfigFile config) {
-        Path path = Launch.minecraftHome.toPath()
-            .toAbsolutePath();
+        Path path = new File("").toPath(); // base directory, this uses relative paths so it just finds `./`
         Path configPath = path.resolve("config");
         File configDir = configPath.toFile();
         if (!configDir.exists()) {
