@@ -5,8 +5,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.gamma.gammalib.config.DebugConfig;
-
 import it.unimi.dsi.fastutil.ints.Int2LongMap;
 import it.unimi.dsi.fastutil.ints.Int2LongMaps;
 import it.unimi.dsi.fastutil.ints.Int2LongOpenHashMap;
@@ -20,15 +18,15 @@ public class GammaLibLogger {
     public GammaLibLogger() {}
 
     public static void debug(String message, Object... args) {
-        if (DebugConfig.debugLogging) logger.info(message, args);
+        if (GammaLibConfig.debugLogging) logger.info(message, args);
     }
 
     public static void debugWarn(String message, Object... args) {
-        if (DebugConfig.debugLogging) logger.warn(message, args);
+        if (GammaLibConfig.debugLogging) logger.warn(message, args);
     }
 
     public static void compatInfo(String message, Object... args) {
-        if (DebugConfig.compatLogging) logger.info("[Compat]: " + message, args);
+        if (GammaLibConfig.compatLogging) logger.info("[Compat]: " + message, args);
     }
 
     public static void compatFatal(String message, Object... args) {
@@ -36,7 +34,7 @@ public class GammaLibLogger {
     }
 
     public static <T> void asmInfo(T that, String message, Object... args) {
-        if (DebugConfig.logASM) logger.info(
+        if (GammaLibConfig.logASM) logger.info(
             "[" + that.getClass()
                 .getSimpleName() + "]: " + message,
             args);
@@ -55,7 +53,7 @@ public class GammaLibLogger {
     }
 
     public static boolean debugRateLimited(String message, Object... args) {
-        if (DebugConfig.debugLogging) {
+        if (GammaLibConfig.debugLogging) {
             boolean canLog = canLog(message);
             if (canLog) logger.debug(message, args);
             return canLog;

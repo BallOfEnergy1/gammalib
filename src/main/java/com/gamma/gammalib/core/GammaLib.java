@@ -10,7 +10,6 @@ import cpw.mods.fml.common.Mod;
     version = Tags.VERSION,
     dependencies = "required-after:gtnhmixins@[2.0.1,);" + "required-after:unimixins@[0.0.20,);"
         + "required-after:gtnhlib@[0.6.21,);",
-    guiFactory = "com.gamma.gammalib.config.GammaLibGuiConfigFactory",
     acceptedMinecraftVersions = "[1.7.10]",
     acceptableRemoteVersions = "*")
 @EventBusSubscriber

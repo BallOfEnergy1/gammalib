@@ -1,6 +1,6 @@
 package com.gamma.gammalib.bench;
 
-import com.gamma.gammalib.config.ImplConfig;
+import com.gamma.gammalib.core.GammaLibConfig;
 import com.gamma.gammalib.unsafe.UnsafeAccessor;
 
 public final class ImplConfigScope implements AutoCloseable {
@@ -12,32 +12,32 @@ public final class ImplConfigScope implements AutoCloseable {
     private final boolean prevCompact;
 
     public ImplConfigScope(int version, boolean useUnsafe, boolean useCompact) {
-        this.prevUnsafe = ImplConfig.useUnsafe;
-        this.prevJava9 = ImplConfig.useJava9Features;
-        this.prevJava17 = ImplConfig.useJava17Features;
-        this.prevJava25 = ImplConfig.useJava25Features;
-        this.prevCompact = ImplConfig.useCompactImpls;
+        this.prevUnsafe = GammaLibConfig.useUnsafe;
+        this.prevJava9 = GammaLibConfig.useJava9Features;
+        this.prevJava17 = GammaLibConfig.useJava17Features;
+        this.prevJava25 = GammaLibConfig.useJava25Features;
+        this.prevCompact = GammaLibConfig.useCompactImpls;
 
-        ImplConfig.useUnsafe = useUnsafe;
+        GammaLibConfig.useUnsafe = useUnsafe;
         if (useUnsafe) UnsafeAccessor.enableUnsafe();
         else UnsafeAccessor.disableUnsafe();
-        ImplConfig.useJava9Features = version >= 9;
-        ImplConfig.useJava17Features = version >= 17;
-        ImplConfig.useJava25Features = version >= 25;
-        ImplConfig.useCompactImpls = useCompact;
+        GammaLibConfig.useJava9Features = version >= 9;
+        GammaLibConfig.useJava17Features = version >= 17;
+        GammaLibConfig.useJava25Features = version >= 25;
+        GammaLibConfig.useCompactImpls = useCompact;
     }
 
     @Override
     public void close() {
-        ImplConfig.useUnsafe = prevUnsafe;
+        GammaLibConfig.useUnsafe = prevUnsafe;
         if (!prevUnsafe && UnsafeAccessor.ENABLED) {
             UnsafeAccessor.disableUnsafe();
         } else if (prevUnsafe && !UnsafeAccessor.ENABLED) {
             UnsafeAccessor.enableUnsafe();
         }
-        ImplConfig.useJava9Features = prevJava9;
-        ImplConfig.useJava17Features = prevJava17;
-        ImplConfig.useJava25Features = prevJava25;
-        ImplConfig.useCompactImpls = prevCompact;
+        GammaLibConfig.useJava9Features = prevJava9;
+        GammaLibConfig.useJava17Features = prevJava17;
+        GammaLibConfig.useJava25Features = prevJava25;
+        GammaLibConfig.useCompactImpls = prevCompact;
     }
 }

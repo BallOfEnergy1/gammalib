@@ -1,6 +1,6 @@
 package com.gamma.gammalib.util.concurrent;
 
-import com.gamma.gammalib.config.ImplConfig;
+import com.gamma.gammalib.core.GammaLibConfig;
 import com.gamma.gammalib.core.GammaLibLogger;
 import com.gamma.gammalib.unsafe.UnsafeAccessor;
 
@@ -24,7 +24,7 @@ public interface IAtomic extends IThreadSafe {
     default boolean isUnsafeAvailable() {
         // Prevent ever initializing the class if the config is disabled.
         // Ensures that incompatible JVMs won't crash with this.
-        if (!ImplConfig.useUnsafe) return false;
+        if (!GammaLibConfig.useUnsafe) return false;
 
         if (UnsafeAccessor.IS_AVAILABLE) return true;
         if (UnsafeAccessor.ENABLED) {
