@@ -12,6 +12,7 @@ import org.spongepowered.asm.lib.util.CheckClassAdapter;
 
 import com.gamma.gammalib.asm.interfaces.IConstructorTransformer;
 import com.gamma.gammalib.asm.interfaces.IFieldTransformer;
+import com.gamma.gammalib.asm.interfaces.IMethodTransformer;
 import com.gamma.gammalib.asm.interfaces.ISuperclassTransformer;
 import com.gamma.gammalib.asm.interfaces.ITransformer;
 import com.gamma.gammalib.asm.util.ClassHierarchyUtil;
@@ -100,6 +101,7 @@ public class PrimaryTransformerHandler implements IClassTransformer {
 
         for (ASMRegistry.Entry validEntry : validEntries) {
             ITransformer validTransformer = validEntry.transformer();
+
             if (validTransformer instanceof ISuperclassTransformer)
                 changed |= ((ISuperclassTransformer) validTransformer).transformSuperclass(transformedName, classNode);
 
@@ -113,6 +115,9 @@ public class PrimaryTransformerHandler implements IClassTransformer {
             }
 
             for (MethodNode mn : classNode.methods) {
+                if (validTransformer instanceof IMethodTransformer) {
+                    changed |= ((IMethodTransformer) validTransformer).transformMethodContents(transformedName, mn);
+                }
                 if (validTransformer instanceof IConstructorTransformer) {
                     boolean[] results = ((IConstructorTransformer) validTransformer)
                         .transformConstructors(transformedName, mn);
