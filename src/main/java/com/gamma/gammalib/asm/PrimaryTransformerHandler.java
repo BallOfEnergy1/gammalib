@@ -116,7 +116,7 @@ public class PrimaryTransformerHandler implements IClassTransformer {
 
             for (MethodNode mn : classNode.methods) {
                 if (validTransformer instanceof IMethodTransformer) {
-                    changed |= ((IMethodTransformer) validTransformer).transformMethodContents(transformedName, mn);
+                    changed |= ((IMethodTransformer) validTransformer).transformMethodContents(transformedName, classNode, mn);
                 }
                 if (validTransformer instanceof IConstructorTransformer) {
                     boolean[] results = ((IConstructorTransformer) validTransformer)

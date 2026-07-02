@@ -1,5 +1,6 @@
 package com.gamma.gammalib.asm.interfaces;
 
+import org.spongepowered.asm.lib.tree.ClassNode;
 import org.spongepowered.asm.lib.tree.MethodNode;
 
 public interface IMethodTransformer extends ITransformer {
@@ -9,5 +10,5 @@ public interface IMethodTransformer extends ITransformer {
      *
      * @return Was the class changed?
      */
-    boolean transformMethodContents(String transformedName, MethodNode mn);
+    boolean transformMethodContents(String transformedName, ClassNode cn, MethodNode mn);
 }
