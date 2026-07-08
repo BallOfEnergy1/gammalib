@@ -205,7 +205,7 @@ public class ClassHierarchyUtil {
         String resource;
 
         if (GammaLibCoreMod.isObfuscatedEnv) {
-            String mapped = ObfuscatedClassHandler.mapDeobfuscatedClass(internalName);
+            String mapped = ObfuscatedClassHandler.classSRGToObf(internalName);
             if (mapped == null) resource = internalName + ".class";
             else resource = mapped + ".class";
         } else resource = internalName + ".class";
