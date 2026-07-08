@@ -16,6 +16,7 @@ import com.google.common.collect.ImmutableBiMap;
 import de.siegmar.fastcsv.reader.CsvReader;
 import de.siegmar.fastcsv.reader.NamedCsvRecord;
 
+@SuppressWarnings("unused")
 public class ObfuscatedClassHandler {
 
     private static final ImmutableBiMap<String, String> classMap;
